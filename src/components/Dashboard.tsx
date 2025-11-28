@@ -2313,7 +2313,7 @@ export function Dashboard() {
             <div className="p-6 flex justify-between items-center bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg">
               <div>
                 <span className="font-bold text-white text-lg tracking-tight">AutoGov</span>
-                <p className="text-blue-100 text-xs font-medium">Automação de Licitações</p>
+                <p className="text-blue-100 text-xs font-medium">Automação de Compras Governamentais</p>
               </div>
               <button
                 onClick={() => setIsSidebarOpen(false)}
@@ -2450,7 +2450,7 @@ export function Dashboard() {
                 </div>
                 <div className="hidden md:block">
                   <h1 className="text-lg font-bold bg-gradient-to-r from-blue-700 to-indigo-600 bg-clip-text text-transparent leading-tight tracking-tight">AutoGov</h1>
-                  <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Automação de Licitações</p>
+                  <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold">Automação de Compras Governamentais</p>
                 </div>
               </div>
             </div>
