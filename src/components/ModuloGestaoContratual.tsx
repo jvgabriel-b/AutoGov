@@ -422,22 +422,25 @@ export function ModuloGestaoContratual({ userName }: ModuloGestaoContratualProps
       case 'entregas':
         return (
           <div className="space-y-4">
-            <div className="flex items-center justify-between mb-4">
+            {/* Header - Responsivo */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
               <h4 className="font-bold text-slate-900">Cronograma de Entregas</h4>
-              <button className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors text-sm font-medium">
+              <button className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors text-sm font-medium">
                 <PlusCircle className="w-4 h-4" />
                 Registrar Entrega
               </button>
             </div>
 
+            {/* Lista de Entregas - Responsiva */}
             <div className="space-y-3">
               {selectedContrato.entregas.map((entrega) => {
                 const colors = entregaStatusColors[entrega.status];
                 return (
-                  <div key={entrega.id} className="bg-white rounded-2xl border border-slate-200 p-5 hover:shadow-lg transition-all">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center gap-3 mb-2">
+                  <div key={entrega.id} className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-5 hover:shadow-lg transition-all">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                      {/* Info da Entrega */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
                           <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${colors.bg} ${colors.text}`}>
                             {colors.label}
                           </span>
@@ -448,22 +451,25 @@ export function ModuloGestaoContratual({ userName }: ModuloGestaoContratualProps
                             </span>
                           )}
                         </div>
-                        <h5 className="font-semibold text-slate-900 mb-1">{entrega.descricao}</h5>
-                        <div className="flex items-center gap-4 text-sm text-slate-500">
+                        <h5 className="font-semibold text-slate-900 mb-2 text-sm sm:text-base">{entrega.descricao}</h5>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-slate-500">
                           <span className="flex items-center gap-1">
-                            <Calendar className="w-3.5 h-3.5" />
+                            <Calendar className="w-3.5 h-3.5 shrink-0" />
                             Previsão: {formatarData(entrega.dataPrevisao)}
                           </span>
                           {entrega.dataEntrega && (
                             <span className="flex items-center gap-1 text-emerald-600">
-                              <CheckCircle2 className="w-3.5 h-3.5" />
+                              <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                               Entregue: {formatarData(entrega.dataEntrega)}
                             </span>
                           )}
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="font-bold text-slate-900">{formatarMoeda(entrega.valorParcela)}</p>
+
+                      {/* Valor - Destacado em mobile */}
+                      <div className="sm:text-right pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+                        <p className="text-xs text-slate-500 sm:hidden mb-1">Valor da Parcela</p>
+                        <p className="font-bold text-slate-900 text-base sm:text-lg">{formatarMoeda(entrega.valorParcela)}</p>
                       </div>
                     </div>
                   </div>

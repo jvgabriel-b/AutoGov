@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import {
-  Brain, TrendingUp, AlertTriangle, Shield, Search, Filter,
-  BarChart3, PieChart, Activity, Zap, Target, Eye, RefreshCw,
-  Download, Calendar, MapPin, Building2, DollarSign, Users,
+  Brain, AlertTriangle, Shield, Search, BarChart3, Activity, Zap,
+  Target, RefreshCw, Download, Building2, DollarSign, Users,
   AlertOctagon, CheckCircle2, XCircle, Clock, FileText,
-  ChevronRight, ArrowUpRight, ArrowDownRight, Percent, Scale,
-  Database, Globe, Cpu, LineChart, Layers
+  ArrowUpRight, ArrowDownRight, Database, Globe, Cpu
 } from 'lucide-react';
 
 interface ModuloInteligenciaProps {
@@ -178,7 +176,6 @@ type TabType = 'dashboard' | 'riscos' | 'precos' | 'auditoria' | 'integracoes' |
 
 export function ModuloInteligencia({ userName }: ModuloInteligenciaProps) {
   const [activeTab, setActiveTab] = useState<TabType>('dashboard');
-  const [selectedRisco, setSelectedRisco] = useState<RiscoIdentificado | null>(null);
   const [filtroSeveridade, setFiltroSeveridade] = useState<string>('todos');
 
   const tabs: { id: TabType; label: string; icon: any }[] = [
@@ -355,10 +352,12 @@ export function ModuloInteligencia({ userName }: ModuloInteligenciaProps) {
               {filteredRiscos.map((risco) => {
                 const colors = severidadeColors[risco.severidade];
                 return (
-                  <div key={risco.id} className={`bg-white rounded-2xl border-2 ${colors.border} p-6 hover:shadow-xl transition-all`}>
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <div className="flex items-center gap-3 mb-2">
+                  <div key={risco.id} className={`bg-white rounded-2xl border-2 ${colors.border} p-4 sm:p-6 hover:shadow-xl transition-all`}>
+                    {/* Header - responsivo com probabilidade em mobile */}
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-4">
+                      {/* Tags e Processo */}
+                      <div className="flex-1">
+                        <div className="flex flex-wrap items-center gap-2 mb-2">
                           <span className={`px-3 py-1.5 rounded-full text-xs font-bold ${colors.bg} ${colors.text}`}>
                             {colors.label.toUpperCase()}
                           </span>
@@ -377,10 +376,12 @@ export function ModuloInteligencia({ userName }: ModuloInteligenciaProps) {
                         </div>
                         <p className="text-sm text-slate-500">Processo: <span className="font-semibold text-slate-700">{risco.processo}</span></p>
                       </div>
-                      <div className="text-right">
+
+                      {/* Probabilidade IA - card destacado em mobile */}
+                      <div className={`flex sm:flex-col items-center sm:items-end gap-2 sm:gap-0 p-3 sm:p-0 rounded-xl ${colors.bg} sm:bg-transparent`}>
                         <div className="flex items-center gap-2">
                           <Brain className={`w-5 h-5 ${colors.text}`} />
-                          <span className={`text-2xl font-bold ${colors.text}`}>{risco.probabilidade}%</span>
+                          <span className={`text-xl sm:text-2xl font-bold ${colors.text}`}>{risco.probabilidade}%</span>
                         </div>
                         <p className="text-xs text-slate-500">Probabilidade IA</p>
                       </div>
@@ -399,15 +400,15 @@ export function ModuloInteligencia({ userName }: ModuloInteligenciaProps) {
                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between pt-4 border-t border-slate-100">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-4 border-t border-slate-100">
                       <span className="text-xs text-slate-500">
                         Identificado em {formatarData(risco.dataIdentificacao)}
                       </span>
                       <div className="flex gap-2">
-                        <button className="px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors">
+                        <button className="flex-1 sm:flex-none px-4 py-2 text-sm font-medium text-slate-600 bg-slate-100 rounded-xl hover:bg-slate-200 transition-colors">
                           Descartar
                         </button>
-                        <button className="px-4 py-2 text-sm font-medium text-white bg-violet-600 rounded-xl hover:bg-violet-700 transition-colors">
+                        <button className="flex-1 sm:flex-none px-4 py-2 text-sm font-medium text-white bg-violet-600 rounded-xl hover:bg-violet-700 transition-colors">
                           Analisar Detalhes
                         </button>
                       </div>
@@ -422,80 +423,86 @@ export function ModuloInteligencia({ userName }: ModuloInteligenciaProps) {
       case 'precos':
         return (
           <div className="space-y-6">
-            {/* Barra de Pesquisa */}
+            {/* Barra de Pesquisa - Responsiva */}
             <div className="bg-white rounded-2xl border border-slate-200 p-4">
-              <div className="flex gap-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
                 <div className="flex-1 relative">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
                     type="text"
                     placeholder="Pesquisar preços de produtos ou serviços..."
-                    className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400"
+                    className="w-full pl-12 pr-4 py-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400 text-sm sm:text-base"
                   />
                 </div>
-                <button className="px-6 py-3 bg-violet-600 text-white rounded-xl font-medium hover:bg-violet-700 transition-colors flex items-center gap-2">
+                <button className="w-full sm:w-auto px-6 py-3 bg-violet-600 text-white rounded-xl font-medium hover:bg-violet-700 transition-colors flex items-center justify-center gap-2">
                   <Brain className="w-5 h-5" />
-                  Pesquisar com IA
+                  <span className="sm:inline">Pesquisar com IA</span>
                 </button>
               </div>
             </div>
 
-            {/* Resultados de Análise */}
+            {/* Resultados de Análise - Cards Responsivos */}
             <div className="space-y-4">
-              {analisesPrecoExemplo.map((analise) => (
-                <div key={analise.id} className={`bg-white rounded-2xl border-2 p-6 ${
-                  analise.status === 'alerta' ? 'border-red-200' :
-                  analise.status === 'atencao' ? 'border-amber-200' : 'border-emerald-200'
-                }`}>
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
-                          analise.status === 'alerta' ? 'bg-red-100 text-red-700' :
-                          analise.status === 'atencao' ? 'bg-amber-100 text-amber-700' : 'bg-emerald-100 text-emerald-700'
-                        }`}>
-                          {analise.status === 'alerta' ? 'ALERTA' : analise.status === 'atencao' ? 'ATENÇÃO' : 'NORMAL'}
-                        </span>
-                      </div>
-                      <h4 className="font-bold text-slate-900">{analise.objeto}</h4>
-                    </div>
-                    <div className={`flex items-center gap-1 text-lg font-bold ${
-                      analise.variacao > 20 ? 'text-red-600' :
-                      analise.variacao > 10 ? 'text-amber-600' : 'text-emerald-600'
-                    }`}>
-                      {analise.variacao > 0 ? <ArrowUpRight className="w-5 h-5" /> : <ArrowDownRight className="w-5 h-5" />}
-                      {analise.variacao.toFixed(1)}%
-                    </div>
-                  </div>
+              {analisesPrecoExemplo.map((analise) => {
+                const statusConfig = {
+                  alerta: { border: 'border-red-200', badge: 'bg-red-100 text-red-700', label: 'ALERTA' },
+                  atencao: { border: 'border-amber-200', badge: 'bg-amber-100 text-amber-700', label: 'ATENÇÃO' },
+                  normal: { border: 'border-emerald-200', badge: 'bg-emerald-100 text-emerald-700', label: 'NORMAL' }
+                };
+                const config = statusConfig[analise.status];
+                const variacaoColor = analise.variacao > 20 ? 'text-red-600' : analise.variacao > 10 ? 'text-amber-600' : 'text-emerald-600';
 
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="p-4 bg-slate-50 rounded-xl">
-                      <p className="text-xs text-slate-500 mb-1">Preço de Referência</p>
-                      <p className="text-xl font-bold text-slate-900">{formatarMoeda(analise.precoReferencia)}</p>
-                    </div>
-                    <div className="p-4 bg-emerald-50 rounded-xl">
-                      <p className="text-xs text-slate-500 mb-1">Preço de Mercado (IA)</p>
-                      <p className="text-xl font-bold text-emerald-700">{formatarMoeda(analise.precoMercado)}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                    <div>
-                      <p className="text-xs text-slate-500 mb-1">Fontes consultadas:</p>
-                      <div className="flex gap-2">
-                        {analise.fontes.map((fonte, idx) => (
-                          <span key={idx} className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
-                            {fonte}
+                return (
+                  <div key={analise.id} className={`bg-white rounded-2xl border-2 p-4 sm:p-6 ${config.border} hover:shadow-lg transition-shadow`}>
+                    {/* Header - Status, Título e Variação */}
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-4">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${config.badge}`}>
+                            {config.label}
                           </span>
-                        ))}
+                        </div>
+                        <h4 className="font-bold text-slate-900 text-sm sm:text-base truncate">{analise.objeto}</h4>
+                      </div>
+
+                      {/* Variação - Destacada em mobile */}
+                      <div className={`flex items-center gap-1.5 text-base sm:text-lg font-bold ${variacaoColor} shrink-0`}>
+                        {analise.variacao > 0 ? <ArrowUpRight className="w-4 h-4 sm:w-5 sm:h-5" /> : <ArrowDownRight className="w-4 h-4 sm:w-5 sm:h-5" />}
+                        <span>{analise.variacao.toFixed(1)}%</span>
                       </div>
                     </div>
-                    <button className="px-4 py-2 text-sm font-medium text-violet-700 bg-violet-50 rounded-xl hover:bg-violet-100 transition-colors">
-                      Ver Detalhes
-                    </button>
+
+                    {/* Preços - Grid responsivo */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
+                      <div className="p-3 sm:p-4 bg-slate-50 rounded-xl">
+                        <p className="text-xs text-slate-500 mb-1">Preço de Referência</p>
+                        <p className="text-lg sm:text-xl font-bold text-slate-900">{formatarMoeda(analise.precoReferencia)}</p>
+                      </div>
+                      <div className="p-3 sm:p-4 bg-emerald-50 rounded-xl">
+                        <p className="text-xs text-slate-500 mb-1">Preço de Mercado (IA)</p>
+                        <p className="text-lg sm:text-xl font-bold text-emerald-700">{formatarMoeda(analise.precoMercado)}</p>
+                      </div>
+                    </div>
+
+                    {/* Footer - Fontes e Ação */}
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-4 border-t border-slate-100">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs text-slate-500 mb-2">Fontes consultadas:</p>
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                          {analise.fontes.map((fonte, idx) => (
+                            <span key={idx} className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded whitespace-nowrap">
+                              {fonte}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                      <button className="w-full sm:w-auto px-4 py-2.5 text-sm font-medium text-violet-700 bg-violet-50 rounded-xl hover:bg-violet-100 transition-colors shrink-0">
+                        Ver Detalhes
+                      </button>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         );

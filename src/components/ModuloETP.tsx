@@ -1,15 +1,14 @@
 import { useState, useEffect } from 'react';
 import {
-  FileText, CheckCircle, AlertCircle, DollarSign, Plus, Search,
+  FileText, CheckCircle, DollarSign, Plus, Search,
   Save, Send, Download, Edit3, Trash2, Eye, Clock, Users,
-  ChevronRight, ChevronDown, X, FileCheck, AlertTriangle,
-  Building2, Package, Scale, FileSignature, Shield, RefreshCw,
-  Target, TrendingUp, BarChart3, Calendar, ArrowRight, Filter,
-  Layers, CheckCircle2, XCircle, Info, Zap, Award, Star
+  ChevronRight, ChevronDown, AlertTriangle,
+  Building2, Scale, RefreshCw, Target, Calendar, Filter,
+  CheckCircle2, XCircle, Award
 } from 'lucide-react';
 import {
   ETP, ETPStatus, criarNovaETP, statusLabels, modalidadeLabels,
-  statusColors, ModalidadeLicitacao, Risco, Alternativa
+  ModalidadeLicitacao
 } from '../types/etp';
 import { carregarDadosExemplo } from '../data/etpExemplos';
 
@@ -85,55 +84,6 @@ const calcularProgresso = (etp: ETP): number => {
   if (etp.anuencias.some(a => a.aprovado)) pontos++;
 
   return Math.round((pontos / total) * 100);
-};
-
-// Componente de Card de Estatística Premium
-const StatCard = ({
-  title,
-  value,
-  subtitle,
-  icon: Icon,
-  trend,
-  color = 'blue'
-}: {
-  title: string;
-  value: string | number;
-  subtitle?: string;
-  icon: any;
-  trend?: { value: number; label: string };
-  color?: 'blue' | 'green' | 'purple' | 'amber' | 'slate'
-}) => {
-  const colorClasses = {
-    blue: 'from-blue-500 to-blue-600 shadow-blue-500/25',
-    green: 'from-emerald-500 to-emerald-600 shadow-emerald-500/25',
-    purple: 'from-violet-500 to-violet-600 shadow-violet-500/25',
-    amber: 'from-amber-500 to-amber-600 shadow-amber-500/25',
-    slate: 'from-slate-600 to-slate-700 shadow-slate-500/25'
-  };
-
-  return (
-    <div className="relative overflow-hidden bg-white rounded-2xl border border-slate-200/60 p-6 hover:shadow-lg transition-all duration-300 group">
-      <div className="absolute top-0 right-0 w-32 h-32 transform translate-x-8 -translate-y-8">
-        <div className={`w-full h-full rounded-full bg-gradient-to-br ${colorClasses[color]} opacity-10 group-hover:opacity-20 transition-opacity`}></div>
-      </div>
-      <div className="relative">
-        <div className="flex items-start justify-between mb-4">
-          <div className={`p-3 rounded-xl bg-gradient-to-br ${colorClasses[color]} shadow-lg`}>
-            <Icon className="w-5 h-5 text-white" />
-          </div>
-          {trend && (
-            <div className={`flex items-center gap-1 text-xs font-medium ${trend.value >= 0 ? 'text-emerald-600' : 'text-red-600'}`}>
-              <TrendingUp className={`w-3 h-3 ${trend.value < 0 ? 'rotate-180' : ''}`} />
-              {Math.abs(trend.value)}%
-            </div>
-          )}
-        </div>
-        <p className="text-sm font-medium text-slate-500 mb-1">{title}</p>
-        <p className="text-2xl font-bold text-slate-900">{value}</p>
-        {subtitle && <p className="text-xs text-slate-400 mt-1">{subtitle}</p>}
-      </div>
-    </div>
-  );
 };
 
 // Componente de Badge de Status Premium
@@ -552,41 +502,42 @@ export function ModuloETP({ userName }: ModuloETPProps) {
       {/* VIEW: Lista de ETPs */}
       {view === 'list' && (
         <>
-          {/* Header com gradiente */}
-          <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-2xl p-8 text-white">
+          {/* Header com gradiente - Responsivo */}
+          <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-2xl p-4 sm:p-6 lg:p-8 text-white">
             <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyIi8+PC9nPjwvZz48L3N2Zz4=')] opacity-30"></div>
             <div className="relative">
-              <div className="flex items-center justify-between mb-6">
+              {/* Header Title & Action */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
                 <div>
-                  <h1 className="text-2xl font-bold mb-1">Estudos Técnicos Preliminares</h1>
-                  <p className="text-blue-200">Gerencie e acompanhe todos os ETPs do órgão</p>
+                  <h1 className="text-xl sm:text-2xl font-bold mb-1">Estudos Técnicos Preliminares</h1>
+                  <p className="text-blue-200 text-sm sm:text-base">Gerencie e acompanhe todos os ETPs do órgão</p>
                 </div>
                 <button
                   onClick={handleNovaETP}
-                  className="flex items-center gap-2 px-5 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors shadow-xl"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-3 bg-white text-blue-700 rounded-xl font-semibold hover:bg-blue-50 transition-colors shadow-xl"
                 >
                   <Plus className="w-5 h-5" />
                   Nova ETP
                 </button>
               </div>
 
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="bg-white/10 backdrop-blur rounded-xl p-4">
-                  <p className="text-blue-200 text-sm mb-1">Total</p>
-                  <p className="text-3xl font-bold">{stats.total}</p>
+              {/* Stats Grid - Responsivo */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+                <div className="bg-white/10 backdrop-blur rounded-xl p-3 sm:p-4">
+                  <p className="text-blue-200 text-xs sm:text-sm mb-1">Total</p>
+                  <p className="text-2xl sm:text-3xl font-bold">{stats.total}</p>
                 </div>
-                <div className="bg-white/10 backdrop-blur rounded-xl p-4">
-                  <p className="text-blue-200 text-sm mb-1">Em Elaboração</p>
-                  <p className="text-3xl font-bold">{stats.elaboracao}</p>
+                <div className="bg-white/10 backdrop-blur rounded-xl p-3 sm:p-4">
+                  <p className="text-blue-200 text-xs sm:text-sm mb-1">Em Elaboração</p>
+                  <p className="text-2xl sm:text-3xl font-bold">{stats.elaboracao}</p>
                 </div>
-                <div className="bg-white/10 backdrop-blur rounded-xl p-4">
-                  <p className="text-blue-200 text-sm mb-1">Aprovadas</p>
-                  <p className="text-3xl font-bold">{stats.aprovados}</p>
+                <div className="bg-white/10 backdrop-blur rounded-xl p-3 sm:p-4">
+                  <p className="text-blue-200 text-xs sm:text-sm mb-1">Aprovadas</p>
+                  <p className="text-2xl sm:text-3xl font-bold">{stats.aprovados}</p>
                 </div>
-                <div className="bg-white/10 backdrop-blur rounded-xl p-4">
-                  <p className="text-blue-200 text-sm mb-1">Valor Total</p>
-                  <p className="text-xl font-bold">{formatarMoeda(stats.valorTotal)}</p>
+                <div className="bg-white/10 backdrop-blur rounded-xl p-3 sm:p-4">
+                  <p className="text-blue-200 text-xs sm:text-sm mb-1">Valor Total</p>
+                  <p className="text-base sm:text-lg lg:text-xl font-bold truncate">{formatarMoeda(stats.valorTotal)}</p>
                 </div>
               </div>
             </div>
